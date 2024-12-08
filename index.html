@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faixa Etária</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #8982c7;
+            margin: 0;
+            padding: 20px;
+        }
+        .caixa {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+    
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button {
+            background-color: #2e2c9b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #6539b6;
+        }
+    </style>
+</head>
+<body>
+    <div class="caixa">
+        <audio id="musicaImortal" src="musica.mp3"></audio>
+        <h1>Descobre a tua faixa etária</h1>
+
+        
+        <form id="anos">
+            <input type="number" id="idade" min="0" max="200" style="width: 150px;" oninput="this.value|=0" placeholder="Insere a tua idade" required>
+            
+            <button type="button" style="font-size: medium ;" onclick="ano()">Descobrir</button>
+        </br>
+            <input type="range" id="barra" min="0" value="0" style="width: 300px;" max="200" oninput="this.nextElementSibling.textContent = this.value"> <span>0</span>
+        </form>
+
+        
+        <div id="resultado">
+            <p>Insere a tua idade em anos, ou arrasta a barra,  para descobrires a tua faixa etária.</p>
+        </div>
+
+    
+        <h2>Intervalos de Referência</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Faixa Etária</th>
+                    <th>Intervalo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Bebé</td><td>0 - 2 anos</td></tr>
+                <tr><td>Criança</td><td>3 - 11 anos</td></tr>
+                <tr><td>Adolescente</td><td>12 - 16 anos</td></tr>
+                <tr><td>Jovem Adulto</td><td>17 - 18 anos</td></tr>
+                <tr><td>Adulto</td><td>18 - 49 anos</td></tr>
+                <tr><td>Adulto de Meia Idade</td><td>50 - 65 anos</td></tr>
+                <tr><td>Idoso</td><td>66 - 100 anos</td></tr>
+                <tr><td>Lendário</td><td>101 - 130 anos</td></tr>
+                <tr><td>Imortal</td><td>mais de 131 anos</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', () => {
+    const barra = document.getElementById('barra');
+    const idadeInput = document.getElementById('idade');
+
+    idadeInput.value = barra.value;
+
+
+    barra.addEventListener('input', () => {
+        idadeInput.value = barra.value;
+    });
+});
+       function ano () {
+            event.preventDefault();
+
+            const barra = document.getElementById('barra');
+            const idade = parseInt(document.getElementById('idade').value);
+            const resultado = document.getElementById('resultado');
+            let faixa= '';
+            let imagem = '';
+            const idadeInput = document.getElementById('idade');
+            const idadeSlider = document.getElementById('barra');
+
+        idadeInput.addEventListener('input', () => {
+            idadeSlider.value = idadeInput.value;
+        });
+
+        idadeSlider.addEventListener('input', () => {
+            idadeInput.value = idadeSlider.value;
+        });
+    
+            if (isNaN (idade)) {
+                alert("Erro: tens de escrever a tua idade na caixa!")
+                return;
+            }
+          
+            else if (idade >= 0 && idade <= 2) {
+                faixa = 'Bebé';
+                imagem = 'imagens/bebe.jpg';
+            } 
+            else if (idade > 2 && idade < 12) {
+                faixa = 'Criança';
+                imagem = 'imagens/crianca.jpg';
+            }
+             else if (idade >= 12 && idade <= 16) {
+                faixa = 'Adolescente';
+                imagem = 'imagens/adolescente.jpg';
+            } 
+            else if (idade > 16 && idade < 18) {
+                faixa = 'Jovem Adulto';
+                imagem = 'imagens/jovem-adulto.jpg';
+            } 
+            else if (idade >= 18 && idade < 50) {
+                faixa = 'Adulto';
+                imagem = 'imagens/adulto.jpg';
+            }
+             else if (idade >= 50 && idade <= 65) {
+                faixa = 'Adulto de Meia Idade';
+                imagem = 'imagens/adulto-meia-idade.jpg';
+            }
+             else if (idade > 65 && idade <= 100) {
+                faixa = 'Idoso';
+                imagem = 'imagens/idoso.jpg';
+            }
+             else if (idade > 100 && idade <= 130) {
+                faixa = 'Lendário';
+                imagem = 'imagens/lendario.jpg';
+            } 
+            else if (idade > 130) {
+                faixa = 'Imortal';
+                imagem = 'imagens/imortal.jpg';
+                const musica = document.getElementById('musicaImortal');
+                musica.currentTime = 0;
+                musica.play();
+            }
+            
+
+            resultado.innerHTML = faixa !== 'Idade inválida' ?
+                `<p>Faixa Etária: <strong>${faixa}</strong></p><img src="${imagem}" alt="${faixa}">` :
+                `<p>${faixa}</p>`;
+        };
+    </script>
+</body>
+</html>
